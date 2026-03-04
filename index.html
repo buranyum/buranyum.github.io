@@ -3,649 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buranyum Design Lab</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◆</text></svg>">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <title>BURANYUM // DESIGN LAB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --noir-black: #0a0a0a;
-            --noir-charcoal: #1a1a1a;
-            --neon-cyan: #00ffc8;
-            --neon-magenta: #ff0080;
-            --smoke-white: #e8e8e8;
-            --shadow-purple: #1a0033;
+            --bg: #050505;
+            --accent: #00FF41; /* Buranyum Işıltısı */
+            --text: #F2F2F2;
+            --dim: #555;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Share Tech Mono', monospace;
-            background: var(--noir-black);
-            min-height: 100vh;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            overflow: hidden;
             position: relative;
-            overflow-x: hidden;
         }
 
-        /* Film grain overlay */
+        /* --- GRAIN OVERLAY (Doku Katmanı) --- */
         body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.03;
-            pointer-events: none;
-            z-index: 1000;
-            animation: grain 8s steps(10) infinite;
+            content: "";
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.04; pointer-events: none; z-index: 50;
         }
 
-        @keyframes grain {
-            0%, 100% { transform: translate(0, 0); }
-            10% { transform: translate(-5%, -10%); }
-            20% { transform: translate(-15%, 5%); }
-            30% { transform: translate(7%, -25%); }
-            40% { transform: translate(-5%, 25%); }
-            50% { transform: translate(-15%, 10%); }
-            60% { transform: translate(15%, 0%); }
-            70% { transform: translate(0%, 15%); }
-            80% { transform: translate(3%, 35%); }
-            90% { transform: translate(-10%, 10%); }
+        /* --- AMBIENT BACKGROUND (Atmosfer) --- */
+        .glow {
+            position: absolute; width: 40vw; height: 40vw;
+            background: radial-gradient(circle, rgba(0, 255, 65, 0.08) 0%, transparent 70%);
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            filter: blur(60px); z-index: 1;
         }
 
-        /* Venetian blind shadows */
-        .blinds {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 5;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 60px,
-                rgba(0, 0, 0, 0.15) 60px,
-                rgba(0, 0, 0, 0.15) 62px
-            );
-            opacity: 0.4;
-        }
-
-        /* Dramatic spotlight effect */
-        .spotlight {
-            position: fixed;
-            top: -50%;
-            left: 50%;
-            width: 150%;
-            height: 150%;
-            background: radial-gradient(
-                ellipse at center,
-                transparent 0%,
-                var(--shadow-purple) 60%,
-                var(--noir-black) 100%
-            );
-            transform: translateX(-50%);
-            pointer-events: none;
-            z-index: 1;
-            animation: spotlightPulse 10s ease-in-out infinite;
-        }
-
-        @keyframes spotlightPulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 0.8; }
-        }
-
-        /* Neon accent lights */
-        .neon-strip {
-            position: fixed;
-            height: 2px;
-            background: linear-gradient(90deg, 
-                transparent, 
-                var(--neon-cyan), 
-                transparent
-            );
-            box-shadow: 
-                0 0 20px var(--neon-cyan),
-                0 0 40px var(--neon-cyan),
-                0 0 60px rgba(0, 255, 200, 0.3);
-            z-index: 2;
-        }
-
-        .neon-strip-top {
-            top: 10%;
-            left: 0;
-            width: 100%;
-            animation: neonFlicker 4s ease-in-out infinite;
-        }
-
-        .neon-strip-bottom {
-            bottom: 15%;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                var(--neon-magenta), 
-                transparent
-            );
-            box-shadow: 
-                0 0 20px var(--neon-magenta),
-                0 0 40px var(--neon-magenta);
-            animation: neonFlicker 5s ease-in-out infinite reverse;
-        }
-
-        @keyframes neonFlicker {
-            0%, 100% { opacity: 1; }
-            45% { opacity: 1; }
-            50% { opacity: 0.3; }
-            55% { opacity: 1; }
-            60% { opacity: 0.8; }
-            65% { opacity: 1; }
-        }
-
+        /* --- MAIN INTERFACE (Ana Arayüz) --- */
         .container {
-            background: linear-gradient(
-                135deg,
-                rgba(26, 26, 26, 0.95) 0%,
-                rgba(15, 15, 15, 0.98) 100%
-            );
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 255, 200, 0.1);
-            border-left: 3px solid var(--neon-cyan);
-            border-right: 3px solid var(--neon-magenta);
-            padding: 100px 80px;
-            max-width: 900px;
-            width: 100%;
-            position: relative;
-            z-index: 10;
-            box-shadow: 
-                -40px 40px 100px rgba(0, 0, 0, 0.8),
-                inset 0 0 100px rgba(0, 255, 200, 0.02);
-            animation: fadeInDramatic 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative; z-index: 10;
+            max-width: 800px; padding: 0 40px;
+            text-align: left;
         }
 
-        @keyframes fadeInDramatic {
-            0% {
-                opacity: 0;
-                transform: translateY(60px) rotateX(10deg);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) rotateX(0deg);
-            }
-        }
-
-        /* Corner accents */
-        .container::before,
-        .container::after {
-            content: '';
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            border: 2px solid var(--neon-cyan);
-            opacity: 0.6;
-        }
-
-        .container::before {
-            top: -2px;
-            left: -2px;
-            border-right: none;
-            border-bottom: none;
-            box-shadow: -5px -5px 20px rgba(0, 255, 200, 0.3);
-        }
-
-        .container::after {
-            bottom: -2px;
-            right: -2px;
-            border-left: none;
-            border-top: none;
-            border-color: var(--neon-magenta);
-            box-shadow: 5px 5px 20px rgba(255, 0, 128, 0.3);
+        .label {
+            font-size: 10px; letter-spacing: 5px; color: var(--accent);
+            margin-bottom: 20px; display: block;
+            animation: flicker 2s infinite;
         }
 
         h1 {
-            font-family: 'Abril Fatface', serif;
-            font-size: 5.5rem;
-            font-weight: 400;
-            color: var(--smoke-white);
-            margin-bottom: 40px;
-            line-height: 0.9;
-            letter-spacing: -3px;
-            text-transform: uppercase;
-            position: relative;
-            text-shadow: 
-                3px 3px 0 rgba(0, 255, 200, 0.3),
-                6px 6px 0 rgba(255, 0, 128, 0.2),
-                9px 9px 30px rgba(0, 0, 0, 0.8);
-            animation: titleReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s backwards;
-        }
-
-        @keyframes titleReveal {
-            0% {
-                opacity: 0;
-                transform: translateX(-40px);
-                filter: blur(10px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-                filter: blur(0);
-            }
-        }
-
-        .subtitle {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.95rem;
-            color: var(--neon-cyan);
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            margin-bottom: 50px;
-            opacity: 0.9;
-            text-shadow: 0 0 10px rgba(0, 255, 200, 0.5);
-            animation: subtitleReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s backwards;
-        }
-
-        @keyframes subtitleReveal {
-            0% {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            100% {
-                opacity: 0.9;
-                transform: translateX(0);
-            }
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(5rem, 15vw, 10rem);
+            line-height: 0.8; margin-bottom: 30px;
+            letter-spacing: -2px;
+            background: linear-gradient(180deg, #fff 30%, #444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .description {
-            font-size: 1.25rem;
-            color: rgba(232, 232, 232, 0.7);
-            line-height: 1.9;
-            margin-bottom: 80px;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-            max-width: 600px;
-            animation: descReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s backwards;
+            font-size: 1.2rem; line-height: 1.6;
+            color: #AAA; max-width: 550px;
+            margin-bottom: 50px; font-weight: 300;
         }
 
-        @keyframes descReveal {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* --- BUTTONS (Eylem Alanı) --- */
+        .actions {
+            display: flex; gap: 20px; align-items: center;
         }
 
-        /* Noir divider */
-        .divider {
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                var(--neon-cyan) 20%,
-                var(--neon-magenta) 80%,
-                transparent
-            );
-            margin: 60px 0 50px;
-            position: relative;
-            opacity: 0.6;
-            box-shadow: 
-                0 0 10px rgba(0, 255, 200, 0.4),
-                0 2px 30px rgba(255, 0, 128, 0.3);
-            animation: dividerReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.9s backwards;
-        }
-
-        @keyframes dividerReveal {
-            0% {
-                opacity: 0;
-                transform: scaleX(0);
-            }
-            100% {
-                opacity: 0.6;
-                transform: scaleX(1);
-            }
-        }
-
-        .bottom-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            animation: bottomReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.3s backwards;
-        }
-
-        @keyframes bottomReveal {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .projects-section {
-            text-align: left;
-        }
-
-        .contact-section {
-            text-align: left;
-        }
-
-        .projects-title {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 1.1rem;
-            color: var(--neon-cyan);
-            font-weight: 400;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-            letter-spacing: 6px;
-            text-shadow: 0 0 15px rgba(0, 255, 200, 0.6);
-            opacity: 0.95;
-        }
-
-        .project-link-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .project-link {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 1.3rem;
-            color: var(--smoke-white);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 20px;
-            padding: 18px 40px;
-            border: 2px solid rgba(0, 255, 200, 0.3);
-            background: rgba(0, 255, 200, 0.03);
-            position: relative;
+        .btn {
+            padding: 18px 35px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700; font-size: 14px;
+            text-transform: uppercase; letter-spacing: 2px;
+            text-decoration: none; position: relative;
+            transition: 0.4s cubic-bezier(0.2, 1, 0.3, 1);
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            letter-spacing: 1px;
-            box-shadow: 
-                inset 0 0 30px rgba(0, 255, 200, 0.03),
-                0 0 15px rgba(0, 255, 200, 0.1);
-            width: fit-content;
         }
 
-        .project-icon {
-            font-size: 1rem;
-            color: var(--neon-cyan);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            text-shadow: 0 0 10px rgba(0, 255, 200, 0.8);
+        /* Projects Button - Solid Metal */
+        .btn-projects {
+            background-color: var(--accent);
+            color: #000;
         }
 
-        .project-text {
-            position: relative;
+        /* Contact Button - Outline */
+        .btn-contact {
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text);
         }
 
-        /* Scanline effect for project link */
-        .project-link::before {
-            content: '';
-            position: absolute;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                180deg,
-                transparent,
-                rgba(0, 255, 200, 0.15),
-                transparent
-            );
-            animation: scanline 4s linear infinite;
+        .btn:hover {
+            transform: translateY(-5px) skewX(-5deg);
+            box-shadow: 0 15px 30px rgba(0, 255, 65, 0.2);
         }
 
-        .project-link::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 18px 40px;
-            padding-left: 60px;
-            color: var(--neon-cyan);
-            opacity: 0;
-            text-shadow: 
-                2px 0 var(--neon-magenta),
-                -2px 0 var(--neon-cyan);
-            clip-path: inset(0 100% 0 0);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        .btn-contact:hover {
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
-        .project-link:hover {
-            border-color: var(--neon-cyan);
-            transform: translateX(10px);
-            box-shadow: 
-                inset 0 0 40px rgba(0, 255, 200, 0.08),
-                0 0 25px rgba(0, 255, 200, 0.3),
-                0 5px 30px rgba(0, 0, 0, 0.4);
+        /* --- DECORATIVE ELEMENTS --- */
+        .coordinates {
+            position: absolute; bottom: 40px; left: 40px;
+            font-size: 10px; color: var(--dim); letter-spacing: 2px;
         }
 
-        .project-link:hover .project-icon {
-            transform: translateX(5px);
-            color: var(--neon-magenta);
-            text-shadow: 0 0 15px rgba(255, 0, 128, 0.8);
+        @keyframes flicker {
+            0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; }
         }
 
-        .project-link:hover::after {
-            opacity: 1;
-            clip-path: inset(0 0 0 0);
-            animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .contact-title {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 1.1rem;
-            color: var(--neon-magenta);
-            font-weight: 400;
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            letter-spacing: 6px;
-            text-shadow: 0 0 15px rgba(255, 0, 128, 0.6);
-            opacity: 0.95;
-        }
-
-        .email-container {
-            position: relative;
-            display: inline-block;
-        }
-
-        .email {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 1.4rem;
-            color: var(--smoke-white);
-            text-decoration: none;
-            font-weight: 400;
-            display: inline-block;
-            padding: 20px 50px;
-            border: 2px solid var(--neon-cyan);
-            background: rgba(0, 255, 200, 0.03);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            letter-spacing: 1px;
-            box-shadow: 
-                inset 0 0 30px rgba(0, 255, 200, 0.05),
-                0 0 20px rgba(0, 255, 200, 0.2);
-        }
-
-        /* Scanline effect */
-        .email::before {
-            content: '';
-            position: absolute;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                180deg,
-                transparent,
-                rgba(0, 255, 200, 0.2),
-                transparent
-            );
-            animation: scanline 3s linear infinite;
-        }
-
-        @keyframes scanline {
-            0% { top: -100%; }
-            100% { top: 100%; }
-        }
-
-        /* Glitch effect on hover */
-        .email::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px 50px;
-            color: var(--neon-cyan);
-            opacity: 0;
-            text-shadow: 
-                2px 0 var(--neon-magenta),
-                -2px 0 var(--neon-cyan);
-            clip-path: inset(0 100% 0 0);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .email:hover {
-            border-color: var(--neon-magenta);
-            transform: translateY(-3px);
-            box-shadow: 
-                inset 0 0 40px rgba(255, 0, 128, 0.1),
-                0 0 30px rgba(255, 0, 128, 0.4),
-                0 10px 40px rgba(0, 0, 0, 0.5);
-        }
-
-        .email:hover::after {
-            opacity: 1;
-            clip-path: inset(0 0 0 0);
-            animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-3px, 3px); }
-            40% { transform: translate(-3px, -3px); }
-            60% { transform: translate(3px, 3px); }
-            80% { transform: translate(3px, -3px); }
-            100% { transform: translate(0); }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 60px 40px;
-            }
-
-            h1 {
-                font-size: 3rem;
-                letter-spacing: -2px;
-            }
-
-            .subtitle {
-                font-size: 0.75rem;
-                letter-spacing: 4px;
-            }
-
-            .description {
-                font-size: 1.1rem;
-            }
-
-            .bottom-section {
-                grid-template-columns: 1fr;
-                gap: 50px;
-            }
-
-            .projects-section,
-            .contact-section {
-                text-align: center;
-            }
-
-            .project-link {
-                font-size: 1rem;
-                padding: 15px 30px;
-            }
-
-            .project-link::after {
-                padding: 15px 30px;
-                padding-left: 50px;
-            }
-
-            .email {
-                font-size: 1.1rem;
-                padding: 16px 35px;
-            }
-
-            .email::after {
-                padding: 16px 35px;
-            }
+        @media (max-width: 600px) {
+            .actions { flex-direction: column; align-items: flex-start; }
+            h1 { font-size: 5rem; }
         }
     </style>
 </head>
 <body>
-    <div class="blinds"></div>
-    <div class="spotlight"></div>
-    <div class="neon-strip neon-strip-top"></div>
-    <div class="neon-strip neon-strip-bottom"></div>
+
+    <div class="glow"></div>
+    <div class="coordinates">SEC_LVL: 04 // 40.7663° N, 29.7891° E</div>
 
     <div class="container">
+        <span class="label">STATUS: OPERATIONAL</span>
         <h1>BURANYUM<br>DESIGN LAB</h1>
-        <div class="subtitle">DIGITAL ATELIER</div>
         
         <p class="description">
-            Buranyum Design Lab is the new-era of design for game industry.
-            We are here to create unique and memorable experiences for every project.
-            See our projects or contact with us. Happy Games 🙌
+            Buranyum Design Lab is the new-era of design for game industry. 
+            We are here to create unique and memorable experiences for every project. 
+            See our projects or contact with us.
         </p>
-        
-        <div class="divider"></div>
-        
-        <div class="bottom-section">
-            <div class="projects-section">
-                <div class="projects-title">Projects</div>
-                <div class="project-link-container">
-                    <a href="https://assetstore.unity.com/publishers/130602" target="_blank" rel="noopener noreferrer" class="project-link" data-text="Unity Asset Store">
-                        <span class="project-icon">▶</span>
-                        <span class="project-text">Unity Asset Store</span>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="contact-section">
-                <div class="contact-title">Contact</div>
-                <div class="email-container">
-                    <a href="mailto:info@buranyum.com" class="email" data-text="info@buranyum.com">
-                        info@buranyum.com
-                    </a>
-                </div>
-            </div>
+
+        <div class="actions">
+            <a href="https://assetstore.unity.com/publishers/130602" target="_blank" class="btn btn-projects">
+                See Projects
+            </a>
+            <a href="mailto:buranyumlab@gmail.com" class="btn btn-contact">
+                Contact
+            </a>
         </div>
     </div>
+
+    <script>
+        // Mouse hareketiyle arka plan ışığını hareket ettir
+        const glow = document.querySelector('.glow');
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            glow.style.left = x + 'px';
+            glow.style.top = y + 'px';
+        });
+    </script>
 </body>
 </html>
