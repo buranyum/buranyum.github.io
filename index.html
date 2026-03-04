@@ -320,11 +320,14 @@
             }
         }
 
-        .contact-section {
-            animation: contactReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.5s backwards;
+        .bottom-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            animation: bottomReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.3s backwards;
         }
 
-        @keyframes contactReveal {
+        @keyframes bottomReveal {
             0% {
                 opacity: 0;
                 transform: translateY(20px);
@@ -336,19 +339,11 @@
         }
 
         .projects-section {
-            margin: 40px 0;
-            animation: projectsReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.3s backwards;
+            text-align: left;
         }
 
-        @keyframes projectsReveal {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .contact-section {
+            text-align: left;
         }
 
         .projects-title {
@@ -582,6 +577,26 @@
                 font-size: 1.1rem;
             }
 
+            .bottom-section {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .projects-section,
+            .contact-section {
+                text-align: center;
+            }
+
+            .project-link {
+                font-size: 1rem;
+                padding: 15px 30px;
+            }
+
+            .project-link::after {
+                padding: 15px 30px;
+                padding-left: 50px;
+            }
+
             .email {
                 font-size: 1.1rem;
                 padding: 16px 35px;
@@ -600,7 +615,7 @@
     <div class="neon-strip neon-strip-bottom"></div>
 
     <div class="container">
-        <h1>Buranyum<br>Design Lab</h1>
+        <h1>BURANYUM<br>DESIGN LAB</h1>
         <div class="subtitle">Digital Atelier</div>
         
         <p class="description">
@@ -610,24 +625,24 @@
         
         <div class="divider"></div>
         
-        <div class="projects-section">
-            <div class="projects-title">Projects</div>
-            <div class="project-link-container">
-                <a href="https://assetstore.unity.com/publishers/130602" target="_blank" rel="noopener noreferrer" class="project-link" data-text="Unity Asset Store">
-                    <span class="project-icon">▶</span>
-                    <span class="project-text">Unity Asset Store</span>
-                </a>
+        <div class="bottom-section">
+            <div class="projects-section">
+                <div class="projects-title">Projects</div>
+                <div class="project-link-container">
+                    <a href="https://assetstore.unity.com/publishers/130602" target="_blank" rel="noopener noreferrer" class="project-link" data-text="Unity Asset Store">
+                        <span class="project-icon">▶</span>
+                        <span class="project-text">Unity Asset Store</span>
+                    </a>
+                </div>
             </div>
-        </div>
-        
-        <div class="divider"></div>
-        
-        <div class="contact-section">
-            <div class="contact-title">Contact</div>
-            <div class="email-container">
-                <a href="mailto:info@buranyum.com" class="email" data-text="info@buranyum.com">
-                    info@buranyum.com
-                </a>
+            
+            <div class="contact-section">
+                <div class="contact-title">Contact</div>
+                <div class="email-container">
+                    <a href="mailto:info@buranyum.com" class="email" data-text="info@buranyum.com">
+                        info@buranyum.com
+                    </a>
+                </div>
             </div>
         </div>
     </div>
